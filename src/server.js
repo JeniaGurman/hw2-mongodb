@@ -3,7 +3,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
 import { ENV_VAR } from './constants/constans.js';
-import { notFoundMiddleware } from './middlewares/notFoundMiddleware.js';
+import { notFoundMiddleware } from './middlewares/notFoundMiddlewares.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js';
 import { getAllContacts, getContactById } from './services/contacts.js';
 
