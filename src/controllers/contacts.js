@@ -16,7 +16,7 @@ export const getContactsController = async (req, res, next) => {
     };
 };
 
-export const getContactbyIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res, next) => {
     const { contactId } = req.params;
     const contact = await getContactById(contactId);
     if (!contact) {
