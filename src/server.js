@@ -4,10 +4,6 @@ import cors from 'cors';
 import contactsRouter from './routers/contacts.js';
 import { env } from './utils/env.js';
 import { ENV_VAR } from './constants/constans.js';
-// import { notFoundMiddleware } from './middlewares/notFoundMiddlewares.js';
-// import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware.js';
-// import { getAllContacts, getContactById } from './services/contacts.js';
-// import { Router } from 'express';
 import { errorHandler, } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
@@ -15,7 +11,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 export const setupServer = () => {
   const app = express();
 
-  app.use(express.json());
+  app.use(express.json({ type: ['application/json', 'application/vnd.api+json'] }));
 
   app.use(pino({ transport: { target: 'pino-pretty' } }));
 
