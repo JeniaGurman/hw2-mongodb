@@ -6,6 +6,6 @@ export const ENV_VAR = {
   MONGODB_DB: 'MONGODB_DB',
 };
 export const SORT_ORDER = {
-  ASC: 'asc',
-  DESC: 'desc',
+  ASC: 'ASC',
+  DESC: 'DESC',
 };
