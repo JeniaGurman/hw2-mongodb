@@ -39,12 +39,13 @@ export const getAllContacts = async ({
     ...paginationData,
   };
 };
-export const getContactById = async (id) => {
-  return await Contacts.findById(id);
+export const getContactById = async (contactId) => {
+  const contact = await Contacts.findById(contactId);
+  return contact;
 };
-export const createContacts = async (payload) => {
-  const contacts = await Contacts.create(payload);
-  return contacts;
+export const createContact = async (payload) => {
+  const contact = await Contacts.create(payload);
+  return contact;
 
 };
 
