@@ -43,11 +43,20 @@ export const getContactByIdController = async (req, res, next) => {
   });
 };
 export const createContactController = async (req, res, next) => {
-  if (!req.body.name || !req.body.phoneNumber) {
-    next(createHttpError(400, 'Name and phoneNumber are required.'));
+  const body = req.body;
+  const name = req.body.name;
+  const phoneNumber = req.body.phoneNumber;
+  const contact = await createContact(body);
+
+  if (!name) {
+    next(createHttpError(400, 'Name is required'));
     return;
   }
-  const contact = await createContact(req.body);
+
+  if (!phoneNumber) {
+    next(createHttpError(400, 'phoneNumber is required'));
+    return;
+  }
 
   res.status(201).json({
     status: 201,
