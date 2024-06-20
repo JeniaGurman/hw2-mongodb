@@ -6,6 +6,7 @@ import { env } from './utils/env.js';
 import { ENV_VAR } from './constants/constans.js';
 import { errorHandler, } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import cookieParser from 'cookie-parser';
 
 
 export const setupServer = () => {
@@ -23,6 +24,8 @@ export const setupServer = () => {
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
+
+  app.use(cookieParser());
 
   const PORT = env(ENV_VAR.PORT, 3000);
 
