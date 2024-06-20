@@ -7,22 +7,22 @@ import { validateId } from "../middlewares/validateId.js";
 
 const router = Router();
 
-router.use('/contacts/:contactId', validateId('contactId'));
+router.use('/:contactId', validateId('contactId'));
 
-router.get('/contacts', ctrlWrapper(getContactsController));
+router.get('/', ctrlWrapper(getContactsController));
 
-router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
+router.get('/:contactId', ctrlWrapper(getContactByIdController));
 
-router.post('/contacts',
+router.post('/',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController));
 
-router.put('/contacts/:contactId', ctrlWrapper(upsertContactController));
+router.put('/:contactId', ctrlWrapper(upsertContactController));
 
-router.patch('/contacts/:contactId',
+router.patch('/:contactId',
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController)),
 
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+router.delete('/:contactId', ctrlWrapper(deleteContactController));
 
 export default router;
