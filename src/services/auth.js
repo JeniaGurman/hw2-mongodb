@@ -39,10 +39,6 @@ export const loginUser = async (payload) => {
     });
 };
 
-export const logoutUser = async (sessionId) => {
-    await SessionsCollection.deleteOne({ _id: sessionId });
-};
-
 const createSession = () => {
     const accessToken = randomBytes(30).toString('base64');
     const refreshToken = randomBytes(30).toString('base64');
@@ -69,13 +65,17 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
         throw createHttpError(401, 'Session token expired');
     }
 
-    const newSession = createSession();
+    // const newSession = createSession();
 
     await SessionsCollection.deleteOne({
-        _id: sessionId, refreshToken
+        _id: sessionId
     });
 
     return await SessionsCollection.create({
-        userId: session.userId, ...newSession,
+        userId: session.userId, ...createSession,
     });
+};
+
+export const logoutUser = async ({ sessionId, refreshToken }) => {
+    return await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
 };
