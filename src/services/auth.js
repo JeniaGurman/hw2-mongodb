@@ -3,7 +3,7 @@ import { UsersCollection } from "../db/models/user.js";
 import { randomBytes } from 'crypto';
 
 import bcrypt from 'bcrypt';
-import { SessionCollection } from "../db/models/session.js";
+import { SessionsCollection } from "../db/models/session.js";
 import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/constans.js";
 
 
@@ -26,13 +26,13 @@ export const loginUser = async (payload) => {
     if (!isEqual) {
         throw createHttpError(401, 'Unauthorized');
     }
-    await SessionCollection.deleteOne({ userId: user._id });
+    await SessionsCollection.deleteOne({ userId: user._id });
 
     const accessToken = randomBytes(30).toString('base64');
 
     const refreshToken = randomBytes(30).toString('base64');
 
-    return await SessionCollection.create({
+    return await SessionsCollection.create({
         userId: user._id, accessToken, refreshToken, accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
         refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
 
@@ -40,7 +40,7 @@ export const loginUser = async (payload) => {
 };
 
 export const logoutUser = async (sessionId) => {
-    await SessionCollection.deleteOne({ _id: sessionId });
+    await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
 const createSession = () => {
@@ -54,7 +54,7 @@ const createSession = () => {
 };
 
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
-    const session = await SessionCollection.findOne({
+    const session = await SessionsCollection.findOne({
         _id: sessionId,
         refreshToken,
     });
@@ -71,11 +71,11 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
     const newSession = createSession();
 
-    await SessionCollection.deleteOne({
+    await SessionsCollection.deleteOne({
         _id: sessionId, refreshToken
     });
 
-    return await SessionCollection.create({
+    return await SessionsCollection.create({
         userId: session.userId, ...newSession,
     });
 };
