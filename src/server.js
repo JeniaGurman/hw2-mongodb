@@ -12,6 +12,8 @@ import cookieParser from 'cookie-parser';
 export const setupServer = () => {
   const app = express();
 
+  app.use(cookieParser());
+
   app.use(express.json({ type: ['application/json', 'application/vnd.api+json'] }));
 
   app.use(pino({ transport: { target: 'pino-pretty' } }));
@@ -20,12 +22,9 @@ export const setupServer = () => {
 
   app.use(router);
 
-
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
-
-  app.use(cookieParser());
 
   const PORT = env(ENV_VAR.PORT, 3000);
 

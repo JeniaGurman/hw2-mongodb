@@ -10,6 +10,8 @@ import { ROLES } from "../constants/constans.js";
 
 const router = Router();
 
+router.use(authenticate);
+
 router.use('/:contactId', validateId('contactId'));
 
 router.get('/', checkRoles(ROLES.TEACHER),  ctrlWrapper(getContactsController));
@@ -28,9 +30,9 @@ router.patch('/:contactId', checkRoles(ROLES.TEACHER, ROLES.PARENT),
 
   router.delete('/:contactId', checkRoles(ROLES.TEACHER), ctrlWrapper(deleteContactController));
 
-router.use(authenticate);
 
-router.get('/', ctrlWrapper(getContactsController));
+
+// router.get('/', ctrlWrapper(getContactsController));
 
 
 

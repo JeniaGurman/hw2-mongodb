@@ -4,18 +4,19 @@ import { UsersCollection } from "../db/models/user.js";
 
 export const authenticate = async (req, res, next) => {
     const authHeader = req.get('Authorization');
+
     if (!authHeader) {
-        next(createHttpError(401, 'Please provide Authorization'));
+        next(createHttpError(401, 'Please provide Authorization header'));
         return;
     }
 
-    const bearer = authHeader.split('')[0];
+    const bearer = authHeader.split(' ')[0];
 
-    const token = authHeader.split('')[1];
+    const token = authHeader.split(' ')[1];
 
     if (bearer !== 'Bearer' || !token)
     {
-        next(createHttpError(401, 'Auth heaer should be of type Bearer'));
+        next(createHttpError(401, 'Auth header should be of type Bearer'));
         return;
     }
 
@@ -26,7 +27,7 @@ export const authenticate = async (req, res, next) => {
         return;
     }
 
-    const isAccessTokenExpired = new Date() > new Date(session.accessTokenValidUntil);
+    const isAccessTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
 
     if (isAccessTokenExpired) {
         next(createHttpError(401, 'Access token expired'));
