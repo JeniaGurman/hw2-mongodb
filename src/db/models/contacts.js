@@ -10,13 +10,12 @@ const contactSchema = new Schema(
       type: String,
       enum: ['work', 'home', 'personal'],
       required: true,
-      default: 'personal',
+      default: "personal",
     },
     parentId: {
       type: Schema.Types.ObjectId,
       ref: 'users',
-      required: true,
-    },
+      },
   },
   {
     timestamps: true,
