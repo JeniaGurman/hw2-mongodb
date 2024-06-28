@@ -4,7 +4,7 @@ import { SORT_ORDER } from '../constants/constans.js';
 
 export const getAllContacts = async ({
   page = 1,
-  perPage = 10,
+  perPage = 5,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
@@ -25,7 +25,7 @@ export const getAllContacts = async ({
   }
 
   const [contactsCount, contacts] = await Promise.all([
-    Contacts.find({userId}).countDocuments(),
+    Contacts.find({ userId }).countDocuments(),
     contactsQuery
       .skip(skip)
       .limit(limit)
@@ -42,24 +42,23 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  const contact = await Contacts.findById({ _id: contactId, userId });
+  const contact = await Contacts.findById({_id: contactId, userId });
   return contact;
 };
 
-export const createContact = async (payload, userId) => {
-  const contact = await Contacts.create(payload, userId);
+export const createContact = async (payload) => {
+  const contact = await Contacts.create(payload);
   return contact;
 };
 
-export const updateContact = async (contactId, payload, options = {}) => {
+export const updateContact = async (contactId, payload, userId) => {
   const rawResult = await Contacts.findOneAndUpdate(
-    { _id: contactId, },
+    { _id: contactId, userId},
     payload,
     {
       new: true,
       includeResultMetadata: true,
-      ...options,
-    },
+      },
   );
 
   if (!rawResult || !rawResult.value) {
