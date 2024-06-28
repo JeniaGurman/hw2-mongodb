@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { getContactsController, deleteContactController, upsertContactController, patchContactController, createContactController, getContactByIdController,  } from "../controllers/contacts.js";
+import { getContactsController, deleteContactController, upsertContactController, patchContactController, getContactByIdController, createContactController,  } from "../controllers/contacts.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { createContactSchema, updateContactSchema } from "../validation/contacts.js";
 import { validateId } from "../middlewares/validateId.js";
 import { authenticate } from "../middlewares/authenticate.js";
+
 // import { checkRoles } from "../middlewares/checkRoles.js";
 // import { ROLES } from "../constants/constans.js";
 
@@ -29,9 +30,6 @@ router.patch('/:contactId', validateBody(updateContactSchema),
   ctrlWrapper(patchContactController)),
 
   router.delete('/:contactId', ctrlWrapper(deleteContactController));
-
-
-
 
 
 export default router;
