@@ -4,7 +4,7 @@ const contactSchema = new Schema(
   {
     name: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    email: { type: String },
+    email: { type: String, required: true },
     isFavourite: { type: Boolean, default: false },
     contactType: {
       type: String,
@@ -16,7 +16,7 @@ const contactSchema = new Schema(
     //   type: Schema.Types.ObjectId,
     //   ref: 'users',
     //   required: true,
-    //   },
+      // },
   },
   {
     timestamps: true,

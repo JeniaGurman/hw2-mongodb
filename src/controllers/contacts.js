@@ -59,29 +59,17 @@ export const getContactByIdController = async (req, res, next) => {
 // };
 
 export const createContactController = async (req, res, next) => {
-  const body = { ...req.body, userId: req.user._id };
-  const name = req.body.name;
-  const phoneNumber = req.body.phoneNumber;
-
-  if (!name) {
-    next(createHttpError(400, 'Name is required'));
+  if (!req.body.name || !req.body.phoneNumber) {
+    next(createHttpError(400, 'Name and phone number are required!'));
     return;
   }
-
-  if (!phoneNumber) {
-    next(createHttpError(400, 'phoneNumber is required'));
-    return;
-  }
-
-  const contact = await createContact(body);
-
+  const contact = await createContact(req.body, req.user._id);
   res.status(201).json({
     status: 201,
-    message: 'Successfully created a contact!',
     data: contact,
+    message: 'Successfully created contact!',
   });
 };
-
 
 export const upsertContactController = async (req, res, next) => {
   const contactId = req.params.contactId;

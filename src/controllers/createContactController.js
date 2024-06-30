@@ -1,16 +1,16 @@
-import { createContact } from '../services/contacts.js';
-import createHttpError from 'http-errors';
+// import { createContact } from '../services/contacts.js';
+// import createHttpError from 'http-errors';
 
-export const createContactController = async (req, res, next) => {
-  if (!req.body.name || !req.body.phoneNumber) {
-    next(createHttpError(400, 'Name and phoneNumber are required.'));
-    return;
-  }
-  const contact = await createContact(...req.body, req.user._Id);
+// export const createContactController = async (req, res, next) => {
+//   if (!req.body.name || !req.body.phoneNumber) {
+//     next(createHttpError(400, 'Name and phoneNumber are required.'));
+//     return;
+//   }
+//   const contact = await createContact(...req.body, req.user._Id);
 
-  res.status(201).json({
-    status: 201,
-    message: `Successfully created a contact!`,
-    data: contact,
-  });
-};
+//   res.status(201).json({
+//     status: 201,
+//     message: `Successfully created a contact!`,
+//     data: contact,
+//   });
+// };

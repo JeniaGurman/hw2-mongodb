@@ -3,20 +3,21 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/constans.js';
 
 export const getAllContacts = async ({
+  userId,
   page = 1,
   perPage = 5,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
-  userId,
+
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
   const contactsQuery = Contacts.find();
 
-  if (filter.contactType) {
-    contactsQuery.where('contactType').equals(filter.contactType);
+  if (filter.type) {
+    contactsQuery.where({ contactType: filter.type });
   }
 
   if (filter.isFavourite) {
@@ -49,7 +50,7 @@ export const getContactById = async (contactId, userId) => {
   return contact;
 };
 
-export const createContact = async ({ payload, userId }) => {
+export const createContact = async (payload, userId) => {
   const contact = await Contacts.create({ ...payload, userId: userId });
   return contact;
 };
