@@ -1,62 +1,54 @@
 import { Router } from 'express';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
-  registerUserController,
   loginUserController,
   logoutUserController,
-  refreshUserController,
-  requestResetByEmailController,
+  refreshSessionController,
+  registerUserController,
+  requestResetEmailController,
   resetPasswordController,
 } from '../controllers/auth.js';
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { validateBody } from '../middlewares/validateBody.js';
 import {
-  registerUserSchema,
   loginUserSchema,
-  requestResetByEmailSchema,
+  registerUserSchema,
+  requestResetEmailSchema,
   resetPasswordSchema,
 } from '../validation/auth.js';
+import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
-const router = Router();
+const authRouter = Router();
 
-router.post(
+authRouter.post(
   '/register',
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
 
-router.post(
+authRouter.post(
   '/login',
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
 
-router.post(
+authRouter.post(
+  '/refresh',
+  authenticate,
+  ctrlWrapper(refreshSessionController),
+);
+
+authRouter.post('/logout', authenticate, ctrlWrapper(logoutUserController));
+
+authRouter.post(
   '/send-reset-email',
-  validateBody(requestResetByEmailSchema),
-  ctrlWrapper(requestResetByEmailController),
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
 );
 
-router.post(
-  '/request-reset-email',
-  validateBody(requestResetByEmailSchema),
-  ctrlWrapper(requestResetByEmailController),
-);
-
-router.post(
+authRouter.post(
   '/reset-pwd',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
 );
 
-router.post(
-  '/request-reset-email',
-  validateBody(resetPasswordSchema),
-  ctrlWrapper(resetPasswordController),
-);
-
-router.post('/logout', authenticate, ctrlWrapper(logoutUserController));
-
-router.post('/refresh', authenticate, ctrlWrapper(refreshUserController));
-
-export default router;
+export default authRouter;
