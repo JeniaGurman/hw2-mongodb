@@ -75,7 +75,7 @@ export const createContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   const fileUrl = await saveFileToCloudinary(req.file);
 
-  const contactId = req.params.contactId;
+  const contactId= req.params.contactId;
   const body = req.body;
   const result = await updateContact(contactId, body, req.user._id, fileUrl);
 
