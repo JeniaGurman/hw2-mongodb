@@ -51,7 +51,7 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const updateContact = async (contactId, payload, userId, fileUrl) => {
+export const updateContact = async (contactId, { payload, fileUrl },userId, ) => {
   const result = await ContactsCollections.findOneAndUpdate(
     { _id: contactId, userId, fileUrl },
     payload,
@@ -59,6 +59,7 @@ export const updateContact = async (contactId, payload, userId, fileUrl) => {
       new: true,
     },
   );
+
 
   return result;
 };
