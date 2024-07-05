@@ -4,14 +4,15 @@ import { readFile } from 'fs/promises';
 
 import { env } from './env.js';
 import createHttpError from 'http-errors';
+import { ENV_VARS } from '../constants/constans.js';
 
 const PATH_JSON = path.join(process.cwd(), 'google-oauth.json');
 
 const oauthConfig = JSON.parse(await readFile(PATH_JSON));
 
 const googleOAuthClient = new OAuth2Client({
-  clientId: env('GOOGLE_AUTH_CLIENT_ID'),
-  clientSecret: env('GOOGLE_AUTH_CLIENT_SECRET'),
+  clientId: env(ENV_VARS.GOOGLE_AUTH_CLIENT_ID), // заміняємо змінні оточення
+  clientSecret: env(ENV_VARS.GOOGLE_AUTH_CLIENT_SECRET), // заміняємо змінні оточення
   redirectUri: oauthConfig.web.redirect_uris[0],
 });
 
@@ -43,3 +44,5 @@ export const getFullNameFromGoogleTokenPayload = (payload) => {
 
   return fullName;
 };
+
+
