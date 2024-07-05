@@ -3,7 +3,7 @@ import {
   deleteContact,
   getAllContacts,
   getContactById,
-  updateContact,
+  patchContact,
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
@@ -73,28 +73,30 @@ export const createContactController = async (req, res, next) => {
 };
 
 export const patchContactController = async (req, res, next) => {
-
   const { contactId } = req.params;
   const photo = req.file;
 
-  let fileUrl;
+  let photoUrl;
 
-  if (photo) { fileUrl = await saveFileToCloudinary(photo); }
+  if (photo) {
+    photoUrl = await saveFileToCloudinary(photo);
+  }
 
-  const result = await updateContact(contactId, {...req.body, photo: fileUrl}, req.user._id);
+  const result = await patchContact(contactId,{...req.body,photo: photoUrl,},
+    req.user._id,
+  );
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
   }
 
-  res.status(200).json({
+  res.json({
     status: 200,
-    message: 'Successfully patched a contact!',
+    message: `Successfully patched a contact!`,
     data: result.contact,
   });
 };
-
 
 
 export const deleteContactController = async (req, res, next) => {
