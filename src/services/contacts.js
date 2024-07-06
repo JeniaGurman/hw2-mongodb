@@ -55,17 +55,15 @@ export const patchContact = async (
   contactId,
   { photo, ...payload },
   userId,
-  options = {},
 ) => {
   const rawResult = await ContactsCollections.findOneAndUpdate(
     { _id: contactId, userId },
     { ...payload, photo },
-    { new: true, includeResultMetadata: true, ...options },
-  ).where({ userId });
-
-  if (!rawResult || !rawResult.value) return null;
+    { new: true },
+  );
+  if (!rawResult) return null;
   return {
-    contact: rawResult.value,
+    contact: rawResult,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };
